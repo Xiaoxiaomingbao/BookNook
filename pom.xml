@@ -13,6 +13,9 @@
         <module>book-user</module>
         <module>book-trade</module>
         <module>eureka</module>
+        <module>book-common</module>
+        <module>book-gateway</module>
+        <module>book-payment</module>
     </modules>
 
     <properties>
