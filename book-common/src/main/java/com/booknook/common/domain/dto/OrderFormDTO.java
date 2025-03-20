@@ -1,4 +1,4 @@
-package com.booknook.common.dto;
+package com.booknook.common.domain.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

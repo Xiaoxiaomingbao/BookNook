@@ -1,4 +1,4 @@
-package com.booknook.common.domain;
+package com.booknook.common.domain.other;
 
 import com.booknook.common.exception.CommonException;
 import lombok.Data;

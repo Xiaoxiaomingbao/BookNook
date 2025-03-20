@@ -1,6 +1,6 @@
 package com.booknook.common.advice;
 
-import com.booknook.common.domain.R;
+import com.booknook.common.domain.other.R;
 import com.booknook.common.exception.BadRequestException;
 import com.booknook.common.exception.CommonException;
 import com.booknook.common.exception.DbException;

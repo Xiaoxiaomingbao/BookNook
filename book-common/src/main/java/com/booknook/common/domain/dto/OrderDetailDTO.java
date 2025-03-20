@@ -1,4 +1,4 @@
-package com.booknook.common.dto;
+package com.booknook.common.domain.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class OrderDetailDTO {
     @ApiModelProperty("商品id")
-    private Long itemId;
+    private Long pid;
     @ApiModelProperty("商品购买数量")
     private Integer num;
 }

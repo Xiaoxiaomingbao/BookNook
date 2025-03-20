@@ -1,13 +1,16 @@
-package com.booknook.common.dto;
+package com.booknook.common.domain.dto;
 
 import com.booknook.common.enums.ProductCondition;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.Year;
+import java.util.List;
 
 @Data
+@AllArgsConstructor
 @ApiModel(description = "商品实体")
 public class ProductDTO {
     @ApiModelProperty("商品id")
@@ -28,6 +31,8 @@ public class ProductDTO {
     private String category;
     @ApiModelProperty("商品描述")
     private String description;
+    @ApiModelProperty("商品封面的URL")
+    private List<String> covers;
     @ApiModelProperty("商品成色")
     private ProductCondition condition;
     @ApiModelProperty("商品状态 1-正常，2-下架，3-删除")
