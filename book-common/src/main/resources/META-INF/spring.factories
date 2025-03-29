@@ -1,2 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.booknook.common.config.JsonConfig
+org.springframework.cloud.openfeign.FeignClientFactoryBean=\
+com.booknook.common.client.fallback.ItemClientFallbackFactory
