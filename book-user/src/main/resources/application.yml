@@ -5,3 +5,8 @@ spring:
     name: user
   profiles:
     active: dev
+  datasource:
+    url: jdbc:mysql://${book-user.database.host}:3306/book-product?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: ${book-user.database.password}
