@@ -10,3 +10,6 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: ${book-product.database.password}
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true

@@ -5,15 +5,15 @@ import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface ProductMapper {
-    @Select("select * from product where pid = #{id}")
+    @Select("select * from product where id = #{id}")
     Product queryProductById(long id);
 
-    @Update("update product set stock = stock - #{num} where pid = #{id}")
+    @Update("update product set stock = stock - #{num} where id = #{id}")
     void deductStock(long id, int num);
 
-    @Options(useGeneratedKeys = true, keyProperty = "pid")  // 指定实体类的 pid 属性，用于接收数据库生成的主键
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     @Insert("insert into product (uid, name, isbn, publisher, publish_time, author, category, " +
-            "description, condition, status, price, stock, create_time, update_time) values " +
+            "description, `condition`, status, price, stock, create_time, update_time) values " +
             "(#{uid}, #{name}, #{isbn}, #{publisher}, #{publishTime}, #{author}, #{category}, " +
             "#{description}, #{condition}, #{status}, #{price}, #{stock}, #{createTime}, #{updateTime})")
     void add(Product product);

@@ -8,6 +8,7 @@ import com.booknook.product.mapper.CoverMapper;
 import com.booknook.product.mapper.ProductMapper;
 import com.booknook.product.service.IProductService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
+@Service
 public class ProductServiceImpl implements IProductService {
 
     ProductMapper productMapper;
@@ -38,7 +40,7 @@ public class ProductServiceImpl implements IProductService {
     public ProductDTO queryProductById(Long id) {
         Product product = productMapper.queryProductById(id);
         List<String> covers = coverMapper.queryCoverByPid(id);
-        return new ProductDTO(product.getPid(), product.getUid(), product.getName(), product.getIsbn(),
+        return new ProductDTO(product.getId(), product.getUid(), product.getName(), product.getIsbn(),
                 product.getPublisher(), product.getPublishTime(), product.getAuthor(), product.getCategory(),
                 product.getDescription(), covers, product.getCondition(), product.getStatus(), product.getPrice(),
                 product.getStock());
@@ -50,13 +52,13 @@ public class ProductServiceImpl implements IProductService {
                 p.getPublishTime(), p.getAuthor(), p.getCategory(), p.getDescription(), p.getCondition(),
                 p.getStatus(), p.getPrice(), p.getStock(), LocalDateTime.now(), null);
         productMapper.add(product);
-        if (product.getPid() == -1) {
+        if (product.getId() == -1) {
             log.error("写入 product 表未获取到自增主键");
         } else {
-            log.info("写入 product 表，获取到自增主键{}", product.getPid());
+            log.info("写入 product 表，获取到自增主键{}", product.getId());
         }
         for (int i = 0; i < p.getCovers().size(); i++) {
-            Cover cover = new Cover(-1L, product.getPid(), p.getCovers().get(i), i);
+            Cover cover = new Cover(-1L, product.getId(), p.getCovers().get(i), i);
             coverMapper.add(cover);
             if (cover.getId() == -1) {
                 log.error("写入 cover 表未获取到自增主键");
@@ -65,6 +67,6 @@ public class ProductServiceImpl implements IProductService {
             }
         }
         // 把 product 的自增 ID 返回
-        p.setPid(product.getPid());
+        p.setPid(product.getId());
     }
 }

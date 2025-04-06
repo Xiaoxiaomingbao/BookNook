@@ -10,7 +10,7 @@ import java.time.Year;
 @Data
 @AllArgsConstructor
 public class Product {
-    private Long pid;
+    private Long id;
     private Long uid;
     private String name;
     private String isbn;
