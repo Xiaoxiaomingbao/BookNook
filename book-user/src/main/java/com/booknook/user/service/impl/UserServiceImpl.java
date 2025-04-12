@@ -49,7 +49,7 @@ public class UserServiceImpl implements IUserService {
     public void deductMoney(String pw, Integer totalFee) {
         log.info("开始扣款");
         // 1. 校验密码
-        Long currentUserId = UserContext.getUser();
+        Long currentUserId = 1L;
         /*User user = userMapper.selectUserById(currentUserId);
         if (user == null || !passwordEncoder.matches(pw, user.getPassword())) {
             // 密码错误
