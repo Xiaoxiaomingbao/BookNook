@@ -17,7 +17,7 @@ import com.booknook.service.IOrderService;
 
 
 
-import io.seata.spring.annotation.GlobalTransactional;
+//import io.seata.spring.annotation.GlobalTransactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
@@ -40,7 +40,7 @@ public class OrderServiceImpl implements IOrderService {
     private final OrderMapper orderMapper;
 
     @Override
-    @GlobalTransactional
+
     public Long createOrder(OrderFormDTO orderFormDTO) {
         // 1.订单数据
         Order order = new Order();

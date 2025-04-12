@@ -16,7 +16,8 @@ public class UserContext {
      * @return 用户id
      */
     public static Long getUser() {
-        return tl.get();
+        //return tl.get();
+        return 1L;
     }
 
     /**

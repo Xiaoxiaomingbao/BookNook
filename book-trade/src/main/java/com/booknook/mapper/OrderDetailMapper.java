@@ -14,21 +14,21 @@ import java.util.List;
 @Mapper
 public interface OrderDetailMapper {
 
-    @Insert("INSERT INTO order_detail (order_id, item_id, num, name, spec, price, image, create_time, update_time) " +
+    @Insert("INSERT INTO detail (order_id, pid, num, name, price, create_time, update_time) " +
             "VALUES (#{orderId}, #{itemId}, #{num}, #{name}, #{spec}, #{price}, #{image}, #{createTime}, #{updateTime})")
     int insertOrderDetail(OrderDetail orderDetail);
 
-    @Select("SELECT * FROM order_detail WHERE id = #{id}")
+    @Select("SELECT * FROM detail WHERE id = #{id}")
     OrderDetail selectOrderDetailById(Long id);
 
-    @Select("SELECT * FROM order_detail WHERE order_id = #{orderId}")
+    @Select("SELECT * FROM detail WHERE order_id = #{orderId}")
     List<OrderDetail> selectOrderDetailsByOrderId(Long orderId);
 
-    @Update("UPDATE order_detail SET order_id = #{orderId}, item_id = #{itemId}, num = #{num}, name = #{name}, " +
-            "spec = #{spec}, price = #{price}, image = #{image}, create_time = #{createTime}, update_time = #{updateTime} " +
+    @Update("UPDATE detail SET order_id = #{orderId}, pid = #{itemId}, num = #{num}, name = #{name}, " +
+            "price = #{price}, create_time = #{createTime}, update_time = #{updateTime} " +
             "WHERE id = #{id}")
     int updateOrderDetail(OrderDetail orderDetail);
 
-    @Delete("DELETE FROM order_detail WHERE id = #{id}")
+    @Delete("DELETE FROM detail WHERE id = #{id}")
     int deleteOrderDetail(Long id);
 }

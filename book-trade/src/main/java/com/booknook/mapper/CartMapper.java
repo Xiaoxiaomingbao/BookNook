@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface CartMapper {
 
-    @Insert("INSERT INTO cart (user_id, item_id, num, name, spec, price, image, create_time, update_time) " +
+    @Insert("INSERT INTO cart (user_id, item_id, num, name, price, image, create_time, update_time) " +
             "VALUES (#{userId}, #{itemId}, #{num}, #{name}, #{spec}, #{price}, #{image}, #{createTime}, #{updateTime})")
     int insert(Cart cart);
 
@@ -29,6 +29,6 @@ public interface CartMapper {
     @Select("SELECT COUNT(*) FROM cart WHERE user_id = #{userId} AND item_id = #{itemId}")
     int countByUserIdAndItemId(Long userId, Long itemId);
 
-    @Update("UPDATE cart SET num = #{num}, name = #{name}, spec = #{spec}, price = #{price}, image = #{image}, update_time = #{updateTime} WHERE id = #{id} AND user_id = #{userId}")
+    @Update("UPDATE cart SET num = #{num}, name = #{name}, price = #{price}, image = #{image}, update_time = #{updateTime} WHERE id = #{id} AND user_id = #{userId}")
     void update(Cart cart);
 }
