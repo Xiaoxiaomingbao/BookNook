@@ -1,5 +1,5 @@
 server:
-  port: 9003
+  port: 9004
 spring:
   application:
     name: trade
@@ -27,6 +27,9 @@ seata:
   application-id: ${spring.application.name}
   tx-service-group: book-trade-group
 
+
+
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

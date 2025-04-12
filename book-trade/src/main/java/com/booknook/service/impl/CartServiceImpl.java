@@ -14,6 +14,7 @@ import com.booknook.domain.po.Cart;
 import com.booknook.mapper.CartMapper;
 import com.booknook.service.ICartService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CartServiceImpl implements ICartService {
 
     private final ProductClient productClient;
@@ -65,11 +67,11 @@ public class CartServiceImpl implements ICartService {
     @Override
     public List<CartVO> queryMyCarts() {
         // 1.查询当前用户的购物车列表
-        List<Cart> carts = cartMapper.selectByUserId(UserContext.getUser());
+        List<Cart> carts = cartMapper.selectByUserId(1L);
         if (CollUtils.isEmpty(carts)) {
             return CollUtils.emptyList();
         }
-
+        log.debug("queryMyCarts: {}", carts);
         // 2.将PO转换为VO
         List<CartVO> vos = BeanUtils.copyList(carts, CartVO.class);
 
@@ -83,7 +85,7 @@ public class CartServiceImpl implements ICartService {
     private void handleCartItems(List<CartVO> vos) {
         // 1.获取购物车中的所有商品ID
         Set<Long> itemIds = vos.stream().map(CartVO::getItemId).collect(Collectors.toSet());
-
+        log.debug("handleCartItems: {}", itemIds);
         // 2.查询商品信息
         List<ProductDTO> items = productClient.queryItemByIds(itemIds);
         if (CollUtils.isEmpty(items)) {
