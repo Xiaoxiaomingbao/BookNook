@@ -18,7 +18,7 @@ public class Address implements Serializable {
     /**
      * 用户ID
      */
-    private Long userId;
+    private Long uid;
 
     /**
      * 省

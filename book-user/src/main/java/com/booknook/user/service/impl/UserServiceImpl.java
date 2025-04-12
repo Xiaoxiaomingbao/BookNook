@@ -6,6 +6,7 @@ import com.booknook.user.domain.po.User;
 import com.booknook.user.mapper.UserMapper;
 import com.booknook.user.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +16,9 @@ import java.util.List;
 @Slf4j
 @Service
 public class UserServiceImpl implements IUserService {
-
+    @Autowired
     UserMapper userMapper;
-    PasswordEncoder passwordEncoder;
+    /*PasswordEncoder passwordEncoder;*/
 
     @Override
     public List<User> listUsers() {
@@ -49,11 +50,11 @@ public class UserServiceImpl implements IUserService {
         log.info("开始扣款");
         // 1. 校验密码
         Long currentUserId = UserContext.getUser();
-        User user = userMapper.selectUserById(currentUserId);
+        /*User user = userMapper.selectUserById(currentUserId);
         if (user == null || !passwordEncoder.matches(pw, user.getPassword())) {
             // 密码错误
             throw new BizIllegalException("用户密码错误");
-        }
+        }*/
 
         // 2. 尝试扣款
         try {

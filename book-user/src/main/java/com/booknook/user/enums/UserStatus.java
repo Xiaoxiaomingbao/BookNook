@@ -1,7 +1,6 @@
 package com.booknook.user.enums;
 
 
-import com.booknook.common.exception.BadRequestException;
 import lombok.Getter;
 
 

@@ -2,11 +2,11 @@ server:
   port: 9002
 spring:
   application:
-    name: user
+    name: book-user
   profiles:
     active: dev
   datasource:
-    url: jdbc:mysql://${book-user.database.host}:3306/book-product?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://${book-user.database.host}:3306/book-user?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai&useSSL=false
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: ${book-user.database.password}
@@ -20,3 +20,7 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - com.booknook.user.controller
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

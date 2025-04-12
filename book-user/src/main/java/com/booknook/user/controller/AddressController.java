@@ -33,14 +33,8 @@ public class AddressController {
     public AddressDTO findAddressById(@ApiParam("地址id") @PathVariable("addressId") Long id) {
         // 1.根据id查询
         Address address = addressService.getById(id);
-        // 2.判断当前用户
-        Long userId = UserContext.getUser();
-        if(!address.getUserId().equals(userId)){
-            throw new BadRequestException("地址不属于当前登录用户");
-        }
         return BeanUtils.copyBean(address, AddressDTO.class);
     }
-    @ApiOperation("查询当前用户地址列表")
     @GetMapping
     public List<AddressDTO> findMyAddresses() {
         // 1.查询列表
