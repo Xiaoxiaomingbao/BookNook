@@ -2,12 +2,14 @@ package com.booknook.product.service.impl;
 
 import com.booknook.common.domain.dto.OrderDetailDTO;
 import com.booknook.common.domain.dto.ProductDTO;
+import com.booknook.common.enums.ProductCondition;
 import com.booknook.product.domain.po.Cover;
 import com.booknook.product.domain.po.Product;
 import com.booknook.product.mapper.CoverMapper;
 import com.booknook.product.mapper.ProductMapper;
 import com.booknook.product.service.IProductService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,9 +20,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class ProductServiceImpl implements IProductService {
-
+    @Autowired
     ProductMapper productMapper;
-
+    @Autowired
     CoverMapper coverMapper;
 
     @Override
@@ -42,14 +44,14 @@ public class ProductServiceImpl implements IProductService {
         List<String> covers = coverMapper.queryCoverByPid(id);
         return new ProductDTO(product.getId(), product.getUid(), product.getName(), product.getIsbn(),
                 product.getPublisher(), product.getPublishTime(), product.getAuthor(), product.getCategory(),
-                product.getDescription(), covers, product.getCondition(), product.getStatus(), product.getPrice(),
-                product.getStock());
+                product.getDescription(), covers, ProductCondition.fromValue(product.getCondition()),
+                product.getStatus(), product.getPrice(), product.getStock());
     }
 
     @Override
     public void add(ProductDTO p) {
         Product product = new Product(-1L, p.getUid(), p.getName(), p.getIsbn(), p.getPublisher(),
-                p.getPublishTime(), p.getAuthor(), p.getCategory(), p.getDescription(), p.getCondition(),
+                p.getPublishTime(), p.getAuthor(), p.getCategory(), p.getDescription(), p.getCondition().getValue(),
                 p.getStatus(), p.getPrice(), p.getStock(), LocalDateTime.now(), null);
         productMapper.add(product);
         if (product.getId() == -1) {

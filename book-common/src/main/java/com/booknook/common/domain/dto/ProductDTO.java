@@ -5,12 +5,14 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.Year;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @ApiModel(description = "商品实体")
 public class ProductDTO {
     @ApiModelProperty("商品id")

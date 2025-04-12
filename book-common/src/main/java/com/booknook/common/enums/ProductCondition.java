@@ -25,4 +25,13 @@ public enum ProductCondition {
         }
         return getValue() == value;
     }
+
+    public static ProductCondition fromValue(int value) {
+        for (ProductCondition condition : ProductCondition.values()) {
+            if (condition.getValue() == value) {
+                return condition;
+            }
+        }
+        throw new IllegalArgumentException("Unexpected value: " + value);
+    }
 }

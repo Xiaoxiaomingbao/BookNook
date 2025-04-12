@@ -1,6 +1,5 @@
 package com.booknook.product.domain.po;
 
-import com.booknook.common.enums.ProductCondition;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -19,7 +18,7 @@ public class Product {
     private String author;
     private String category;
     private String description;
-    private ProductCondition condition;
+    private Integer condition;
     private Integer status;
     private Integer price;
     private Integer stock;
