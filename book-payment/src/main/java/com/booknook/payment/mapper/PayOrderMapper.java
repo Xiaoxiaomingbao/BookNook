@@ -2,6 +2,7 @@ package com.booknook.payment.mapper;
 
 
 import com.booknook.payment.domain.po.PayOrder;
+import org.mapstruct.Mapper;
 
 import java.util.List;
 
@@ -10,9 +11,9 @@ import java.util.List;
  * 支付订单 Mapper 接口
  * </p>
  *
- * @author 虎哥
- * @since 2023-05-16
  */
+
+@Mapper
 public interface PayOrderMapper {
 
     // 根据ID查询支付订单

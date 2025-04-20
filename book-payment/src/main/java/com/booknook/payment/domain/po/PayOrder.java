@@ -17,6 +17,10 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 public class PayOrder implements Serializable {
 
+    /**
+     * 需要添加数据库具体实现方法（sql语句）
+     */
+
     private static final long serialVersionUID = 1L;
 
     /**

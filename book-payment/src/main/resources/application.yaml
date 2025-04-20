@@ -1,0 +1,17 @@
+server:
+  port: 9005
+spring:
+  application:
+    name: payment
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://${book-payment.database.host}:3306/book-payment?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: ${book-payment.database.password}
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

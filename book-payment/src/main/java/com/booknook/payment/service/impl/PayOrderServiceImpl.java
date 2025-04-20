@@ -8,12 +8,12 @@ import com.booknook.payment.domain.po.PayOrder;
 import com.booknook.payment.mapper.PayOrderMapper;
 import com.booknook.payment.service.IPayOrderService;
 
-import com.hmall.common.exception.BizIllegalException;
-import com.hmall.common.utils.BeanUtils;
-import com.hmall.common.utils.UserContext;
+import com.booknook.common.exception.BizIllegalException;
+import com.booknook.common.utils.BeanUtils;
+import com.booknook.common.utils.UserContext;
 
 
-import com.hmall.pay.enums.PayStatus;
+import com.booknook.payment.enums.PayStatus;
 
 
 import lombok.RequiredArgsConstructor;
@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -30,8 +31,6 @@ import java.util.Objects;
  * 支付订单 服务实现类
  * </p>
  *
- * @author 虎哥
- * @since 2023-05-16
  */
 @Slf4j
 @Service
@@ -44,11 +43,21 @@ public class PayOrderServiceImpl implements IPayOrderService {
     private final RabbitTemplate rabbitTemplate;
 
     @Override
+    public List<PayOrder> list() {
+        return payOrderMapper.findAll();
+    }
+
+    @Override
     public String applyPayOrder(PayApplyDTO applyDTO) {
         // 1.幂等性校验
         PayOrder payOrder = checkIdempotent(applyDTO);
         // 2.返回结果
         return payOrder.getId().toString();
+    }
+
+    @Override
+    public boolean removeById(Long id) {
+        return payOrderMapper.deleteById(id) > 0;
     }
 
     @Override
@@ -81,9 +90,14 @@ public class PayOrderServiceImpl implements IPayOrderService {
         // 查询当前支付单
         PayOrder payOrder = getById(id);
         // 判断支付状态是否符合条件
-        if (payOrder == null ||
-                !(PayStatus.NOT_COMMIT.getValue().equals(payOrder.getStatus()) ||
-                        PayStatus.WAIT_BUYER_PAY.getValue().equals(payOrder.getStatus()))) {
+        if (payOrder == null) {
+            return false;
+        }
+
+        // 检查当前状态是否为NOT_COMMIT或WAIT_BUYER_PAY
+        int status = payOrder.getStatus();
+        if (status != PayStatus.NOT_COMMIT.getValue() &&
+                status != PayStatus.WAIT_BUYER_PAY.getValue()) {
             return false;
         }
         // 更新支付单状态
@@ -144,15 +158,15 @@ public class PayOrderServiceImpl implements IPayOrderService {
     }
 
     // 添加基础CRUD方法的实现
-    private PayOrder getById(Long id) {
+    public PayOrder getById(Long id) {
         return payOrderMapper.findById(id);
     }
 
-    private boolean save(PayOrder payOrder) {
+    public boolean save(PayOrder payOrder) {
         return payOrderMapper.insert(payOrder) > 0;
     }
 
-    private boolean updateById(PayOrder payOrder) {
+    public boolean updateById(PayOrder payOrder) {
         return payOrderMapper.update(payOrder) > 0;
     }
 
