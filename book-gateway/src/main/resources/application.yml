@@ -35,3 +35,15 @@ logging:
   level:
     org.springframework.cloud.gateway: DEBUG
     reactor.netty: DEBUG
+
+book-gateway:
+  jwt:
+    location: classpath:book-key.jks # 秘钥地址
+    alias: book-key # 秘钥别名
+    password: 123456 # 秘钥文件密码
+    tokenTTL: 365d # 登录有效期
+  auth:
+    excludePaths: # 无需登录校验的路径
+      - /search/**
+      - /users/login
+      - /products/**
