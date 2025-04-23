@@ -24,3 +24,9 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+book-user:
+  jwt:
+    location: classpath:book-key.jks # 秘钥地址
+    alias: book-key # 秘钥别名
+    password: 123456 # 秘钥文件密码
+    tokenTTL: 365d # 登录有效期

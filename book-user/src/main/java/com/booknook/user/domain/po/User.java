@@ -4,11 +4,13 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.booknook.user.enums.UserStatus;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 @Data
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 public class User implements Serializable {
@@ -37,6 +39,9 @@ public class User implements Serializable {
      */
     private LocalDateTime createTime;
 
+    /**
+     * 更新时间
+     */
     private LocalDateTime updateTime;
 
     /**

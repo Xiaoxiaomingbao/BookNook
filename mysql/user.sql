@@ -6,7 +6,7 @@ USE `book-user`;
 CREATE TABLE IF NOT EXISTS `user` (
     `id` bigint NOT NULL AUTO_INCREMENT COMMENT '用户id',
     `username` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '用户名',
-    `password` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '密码',
+    `password` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '密码',
     `phone` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '电话',
     `avatar` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '头像URL',
     `status` int NULL DEFAULT 1 COMMENT '使用状态（1正常 2冻结）',
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = COMPACT;
 
 INSERT INTO `user` (`username`, `password`, `phone`, `avatar`, `status`, `balance`, `create_time`, `update_time`) VALUES
-('user1', 'password1', '13800138000', 'https://example.com/avatar1.jpg', 1, 1000, NOW(), NOW()),
+('user1', '$2a$10$DNmD2.9NicXNKDk33ArBMuaRa4c7RMn5pgupMBbI35.PG4Q4xGSY.', '13800138000', 'https://example.com/avatar1.jpg', 1, 1000, NOW(), NOW()),
 ('user2', 'password2', '13900139000', 'https://example.com/avatar2.jpg', 1, 2000, NOW(), NOW()),
 ('user3', 'password3', '13700137000', 'https://example.com/avatar3.jpg', 2, 1500, NOW(), NOW()),
 ('user4', 'password4', '13600136000', 'https://example.com/avatar4.jpg', 1, 3000, NOW(), NOW()),

@@ -1,6 +1,6 @@
 package com.booknook.user.mapper;
 
-import com.booknook.user.domain.po.User;
+import com.booknook.user.domain.po.UserRawPO;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -12,13 +12,19 @@ public interface UserMapper {
      * 查询单个用户
      */
     @Select("SELECT id, username, password, phone, create_time, update_time, status, balance FROM user WHERE id = #{id}")
-    User selectUserById(Long id);
+    UserRawPO selectUserById(Long id);
+
+    /**
+     * 根据用户名查询用户
+     */
+    @Select("SELECT id, username, password, phone, create_time, update_time, status, balance FROM user WHERE username = #{username}")
+    List<UserRawPO> selectUserByUsername(String username);
 
     /**
      * 查询所有用户
      */
     @Select("SELECT * FROM user")
-    List<User> selectAllUsers();
+    List<UserRawPO> selectAllUsers();
 
     /**
      * 插入用户
@@ -26,14 +32,14 @@ public interface UserMapper {
     @Insert("INSERT INTO user (username, password, phone, create_time, update_time, status, balance) " +
             "VALUES (#{username}, #{password}, #{phone}, #{createTime}, #{updateTime}, #{status}, #{balance})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    int insertUser(User user);
+    int insertUser(UserRawPO user);
 
     /**
      * 更新用户
      */
     @Update("UPDATE user SET username = #{username}, password = #{password}, phone = #{phone}, " +
             "create_time = #{createTime}, update_time = #{updateTime}, status = #{status}, balance = #{balance} WHERE id = #{id}")
-    int updateUser(User user);
+    int updateUser(UserRawPO user);
 
     /**
      * 删除用户
