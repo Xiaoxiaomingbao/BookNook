@@ -11,7 +11,7 @@ import java.util.List;
 public interface CartMapper {
 
     @Insert("INSERT INTO cart (user_id, item_id, num, name, price, image, create_time, update_time) " +
-            "VALUES (#{userId}, #{itemId}, #{num}, #{name}, #{spec}, #{price}, #{image}, #{createTime}, #{updateTime})")
+            "VALUES (#{userId}, #{itemId}, #{num}, #{name}, #{price}, #{image}, #{createTime}, #{updateTime})")
     int insert(Cart cart);
 
     @Select("SELECT * FROM cart WHERE user_id = #{userId}")
