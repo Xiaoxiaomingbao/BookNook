@@ -3,7 +3,7 @@ package com.booknook.gateway.filter;
 import com.booknook.common.exception.UnauthorizedException;
 import com.booknook.common.utils.CollUtils;
 import com.booknook.gateway.config.AuthProperties;
-import com.booknook.gateway.util.JwtTool;
+import com.booknook.gateway.utils.JwtTool;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,10 +60,13 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
             return response.setComplete();
         }
 
-        // TODO 5.如果有效，传递用户信息
-        System.out.println("userId = " + userId);
+        // 5.传递用户信息
+        String userInfo = userId.toString();
+        ServerWebExchange ex = exchange.mutate()
+                .request(b -> b.header("user-info", userInfo))
+                .build();
         // 6.放行
-        return chain.filter(exchange);
+        return chain.filter(ex);
     }
 
     private boolean isExclude(String antPath) {

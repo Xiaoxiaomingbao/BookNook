@@ -1,4 +1,4 @@
-package com.booknook.gateway.util;
+package com.booknook.gateway.utils;
 
 import cn.hutool.core.exceptions.ValidateException;
 import cn.hutool.jwt.JWT;

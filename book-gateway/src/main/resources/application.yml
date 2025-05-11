@@ -18,7 +18,11 @@ spring:
           uri: lb://book-user
           predicates:
             - Path=/addresses/**
-        - id: trade
+        - id: cart
+          uri: lb://book-trade
+          predicates:
+            - Path=/carts/**
+        - id: order
           uri: lb://book-trade
           predicates:
             - Path=/orders/**

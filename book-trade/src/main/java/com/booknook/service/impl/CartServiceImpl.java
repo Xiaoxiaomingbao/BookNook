@@ -66,7 +66,7 @@ public class CartServiceImpl implements ICartService {
     @Override
     public List<CartVO> queryMyCarts() {
         // 1.查询当前用户的购物车列表
-        List<Cart> carts = cartMapper.selectByUserId(1L);
+        List<Cart> carts = cartMapper.selectByUserId(UserContext.getUser());
         if (CollUtils.isEmpty(carts)) {
             return CollUtils.emptyList();
         }
@@ -75,7 +75,7 @@ public class CartServiceImpl implements ICartService {
         List<CartVO> vos = BeanUtils.copyList(carts, CartVO.class);
 
         // 3.处理VO中的商品信息（通过商品ID获取商品详情）
-        handleCartItems(vos);
+        // handleCartItems(vos);
 
         // 4.返回购物车VO列表
         return vos;
