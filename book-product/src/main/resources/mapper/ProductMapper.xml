@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.booknook.product.mapper.ProductMapper">
+
+    <!-- 根据 ID 查询单个商品 -->
+    <select id="queryProductById" resultType="com.booknook.product.domain.po.Product">
+        SELECT * FROM product WHERE id = #{id}
+    </select>
+
+    <!-- 扣减库存 -->
+    <update id="deductStock">
+        UPDATE product SET stock = stock - #{num} WHERE id = #{id}
+    </update>
+
+    <!-- 插入商品 -->
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO product (
+            uid, name, isbn, publisher, publish_time, author, category,
+            description, `condition`, status, price, stock, create_time, update_time
+        ) VALUES (
+            #{uid}, #{name}, #{isbn}, #{publisher}, #{publishTime}, #{author}, #{category},
+            #{description}, #{condition}, #{status}, #{price}, #{stock}, #{createTime}, #{updateTime}
+        )
+    </insert>
+
+    <!-- 批量查询商品 -->
+    <select id="queryProductsByIds" resultType="com.booknook.product.domain.po.Product">
+        <foreach collection="ids" item="id" open="SELECT * FROM product WHERE id IN (" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+</mapper>

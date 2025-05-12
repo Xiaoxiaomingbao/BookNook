@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.booknook.product.mapper.CoverMapper">
+
+    <!-- 根据 ID 查询封面 URL -->
+    <select id="queryCoverByPid" resultType="java.lang.String">
+        SELECT cover FROM cover WHERE pid = #{pid}
+    </select>
+
+    <!-- 批量查询封面 -->
+    <select id="queryCoversByPids" resultType="com.booknook.product.domain.po.Cover">
+        SELECT * FROM cover WHERE pid IN
+        <foreach collection="pids" item="pid" open="(" separator="," close=")">
+            #{pid}
+        </foreach>
+    </select>
+
+    <!-- 插入一张图片 -->
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO cover (pid, cover, number) VALUES (#{pid}, #{cover}, #{number})
+    </insert>
+</mapper>

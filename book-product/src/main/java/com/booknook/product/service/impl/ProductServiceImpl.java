@@ -13,8 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -33,8 +32,22 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public List<ProductDTO> queryProductByIds(Collection<Long> ids) {
-        return ids.stream()
-                .map(this::queryProductById)
+        Map<Long, List<String>> coverMap = new HashMap<>();
+        coverMapper.queryCoversByPids((List<Long>) ids)
+                .forEach(cover -> {
+                    if (coverMap.containsKey(cover.getPid())) {
+                        coverMap.get(cover.getPid()).add(cover.getCover());
+                    } else {
+                        List<String> list = new ArrayList<>();
+                        list.add(cover.getCover());
+                        coverMap.put(cover.getPid(), list);
+                    }
+                });
+        return productMapper.queryProductsByIds((List<Long>) ids).stream()
+                .map(product -> new ProductDTO(product.getId(), product.getUid(), product.getName(), product.getIsbn(),
+                        product.getPublisher(), product.getPublishTime(), product.getAuthor(), product.getCategory(),
+                        product.getDescription(), coverMap.get(product.getId()), ProductCondition.fromValue(product.getCondition()),
+                        product.getStatus(), product.getPrice(), product.getStock()))
                 .collect(Collectors.toList());
     }
 

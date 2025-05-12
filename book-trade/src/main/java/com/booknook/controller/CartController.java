@@ -3,7 +3,6 @@ package com.booknook.controller;
 
 import com.booknook.common.domain.dto.CartFormDTO;
 import com.booknook.common.domain.vo.CartVO;
-import com.booknook.common.utils.UserContext;
 import com.booknook.domain.po.Cart;
 import com.booknook.service.ICartService;
 import io.swagger.annotations.Api;
@@ -43,10 +42,7 @@ public class CartController {
 
     @ApiOperation("查询购物车列表")
     @GetMapping
-    public List<CartVO> queryMyCarts(@RequestHeader(value = "user-info") String userInfo){
-        Long userId = Long.parseLong(userInfo);
-        UserContext.setUser(userId);
-        System.out.println("user id = " + userId);
+    public List<CartVO> queryMyCarts(){
         return cartService.queryMyCarts();  // 调用服务层获取购物车列表
     }
 
