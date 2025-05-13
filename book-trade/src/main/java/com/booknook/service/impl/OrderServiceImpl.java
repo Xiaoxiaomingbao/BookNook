@@ -7,20 +7,16 @@ import com.booknook.common.domain.dto.OrderFormDTO;
 import com.booknook.common.domain.dto.ProductDTO;
 import com.booknook.common.exception.BadRequestException;
 import com.booknook.common.utils.UserContext;
-import com.booknook.constants.MQConstants;
 import com.booknook.domain.po.Order;
 import com.booknook.domain.po.OrderDetail;
 import com.booknook.mapper.OrderMapper;
 import com.booknook.service.IOrderDetailService;
 import com.booknook.service.IOrderService;
 
-
-
-
-//import io.seata.spring.annotation.GlobalTransactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,17 +26,17 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class OrderServiceImpl implements IOrderService {
 
     private final ProductClient itemClient;
     private final IOrderDetailService detailService;
     private final CartClient cartClient;
-    private final RabbitTemplate rabbitTemplate;
     private final OrderMapper orderMapper;
 
     @Override
-
+    @Transactional
     public Long createOrder(OrderFormDTO orderFormDTO) {
         // 1.订单数据
         Order order = new Order();
@@ -55,19 +51,21 @@ public class OrderServiceImpl implements IOrderService {
         if (items == null || items.size() < itemIds.size()) {
             throw new BadRequestException("商品不存在");
         }
+        log.warn("查询商品错误");
         // 1.4.基于商品价格、购买数量计算商品总价：totalFee
         int total = 0;
         for (ProductDTO item : items) {
             total += item.getPrice() * itemNumMap.get(item.getPid());
         }
         order.setTotalFee(total);
+        log.warn("计算总价错误");
         // 1.5.其它属性
         order.setPaymentType(orderFormDTO.getPaymentType());
         order.setUserId(UserContext.getUser());
         order.setStatus(1);
         // 1.6.将Order写入数据库order表中
         orderMapper.insertOrder(order);
-
+        log.warn("将Order写入数据库order表中错误");
         // 2.保存订单详情
         List<OrderDetail> details = buildDetails(order.getId(), items, itemNumMap);
         // 替换批量保存方法，改为循环保存每个订单详情
@@ -77,6 +75,7 @@ public class OrderServiceImpl implements IOrderService {
 
         // 3.清理购物车商品
         cartClient.deleteCartItemByIds(itemIds);
+        log.warn("清理购物车商品错误");
 
         // 4.扣减库存
         try {
@@ -85,15 +84,7 @@ public class OrderServiceImpl implements IOrderService {
             throw new RuntimeException("库存不足！");
         }
 
-        // 5.发送延迟消息，检测订单支付状态
-        rabbitTemplate.convertAndSend(
-                MQConstants.DELAY_EXCHANGE_NAME,
-                MQConstants.DELAY_ORDER_KEY,
-                order.getId(),
-                message -> {
-                    message.getMessageProperties().setDelay(10000);
-                    return message;
-                });
+        // TODO 5.发送延迟消息，检测订单支付状态
 
         return order.getId();
     }

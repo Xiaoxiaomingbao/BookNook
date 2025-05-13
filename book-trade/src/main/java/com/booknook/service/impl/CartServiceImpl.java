@@ -42,13 +42,12 @@ public class CartServiceImpl implements ICartService {
     @Override
     public void addItem2Cart(CartFormDTO cartFormDTO) {
         // 1.获取登录用户
-        //Long userId = UserContext.getUser();
-        Long userId = 1L;
+        Long userId = UserContext.getUser();
 
         // 2.判断是否已经存在该商品
         if(checkItemExists(cartFormDTO.getItemId(), userId)){
             // 2.1.商品已存在，则更新购物车数量
-            cartMapper.updateNum(cartFormDTO.getItemId(), userId);
+            cartMapper.updateNum(cartFormDTO.getItemId(),cartFormDTO.getNum(), userId);
             return;
         }
         // 2.2.商品不存在，检查购物车是否已满
