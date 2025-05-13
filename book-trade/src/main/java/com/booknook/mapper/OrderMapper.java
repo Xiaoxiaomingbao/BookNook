@@ -14,8 +14,9 @@ import java.util.List;
 @Mapper
 public interface OrderMapper {
 
-    @Insert("INSERT INTO `order` (id, total_fee, payment_type, user_id, status, create_time, pay_time, consign_time, end_time, close_time, comment_time, update_time) " +
-            "VALUES (#{id}, #{totalFee}, #{paymentType}, #{userId}, #{status}, #{createTime}, #{payTime}, #{consignTime}, #{endTime}, #{closeTime}, #{commentTime}, #{updateTime})")
+    @Options(useGeneratedKeys=true, keyProperty="id")
+    @Insert("INSERT INTO `order` (total_fee, payment_type, user_id, status, create_time, pay_time, consign_time, end_time, close_time, comment_time, update_time) " +
+            "VALUES (#{totalFee}, #{paymentType}, #{userId}, #{status}, #{createTime}, #{payTime}, #{consignTime}, #{endTime}, #{closeTime}, #{commentTime}, #{updateTime})")
     int insertOrder(Order order);
 
     @Select("SELECT * FROM `order` WHERE id = #{id}")

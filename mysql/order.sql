@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS `book-trade` /*!40100 DEFAULT CHARACTER SET utf8mb
 USE `book-trade`;
 
 CREATE TABLE IF NOT EXISTS `order` (
-    `id` bigint NOT NULL COMMENT '订单id',
+    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '订单id',
     `total_fee` int NOT NULL DEFAULT '0' COMMENT '总金额，单位为分',
     `payment_type` tinyint(1) unsigned zerofill NOT NULL COMMENT '支付类型，1、支付宝，2、微信，3、扣减余额',
     `user_id` bigint NOT NULL COMMENT '用户id',

@@ -1,6 +1,5 @@
 package com.booknook.service.impl;
 
-import com.booknook.common.client.CartClient;
 import com.booknook.common.client.ProductClient;
 import com.booknook.common.domain.dto.OrderDetailDTO;
 import com.booknook.common.domain.dto.OrderFormDTO;
@@ -10,6 +9,7 @@ import com.booknook.common.utils.UserContext;
 import com.booknook.domain.po.Order;
 import com.booknook.domain.po.OrderDetail;
 import com.booknook.mapper.OrderMapper;
+import com.booknook.service.ICartService;
 import com.booknook.service.IOrderDetailService;
 import com.booknook.service.IOrderService;
 
@@ -32,7 +32,7 @@ public class OrderServiceImpl implements IOrderService {
 
     private final ProductClient itemClient;
     private final IOrderDetailService detailService;
-    private final CartClient cartClient;
+    private final ICartService cartService;
     private final OrderMapper orderMapper;
 
     @Override
@@ -51,21 +51,21 @@ public class OrderServiceImpl implements IOrderService {
         if (items == null || items.size() < itemIds.size()) {
             throw new BadRequestException("商品不存在");
         }
-        log.warn("查询商品错误");
+        log.warn("查询商品");
         // 1.4.基于商品价格、购买数量计算商品总价：totalFee
         int total = 0;
         for (ProductDTO item : items) {
             total += item.getPrice() * itemNumMap.get(item.getPid());
         }
         order.setTotalFee(total);
-        log.warn("计算总价错误");
+        log.warn("计算总价");
         // 1.5.其它属性
         order.setPaymentType(orderFormDTO.getPaymentType());
         order.setUserId(UserContext.getUser());
         order.setStatus(1);
         // 1.6.将Order写入数据库order表中
         orderMapper.insertOrder(order);
-        log.warn("将Order写入数据库order表中错误");
+        log.warn("将Order写入数据库order表中");
         // 2.保存订单详情
         List<OrderDetail> details = buildDetails(order.getId(), items, itemNumMap);
         // 替换批量保存方法，改为循环保存每个订单详情
@@ -74,8 +74,9 @@ public class OrderServiceImpl implements IOrderService {
         }
 
         // 3.清理购物车商品
-        cartClient.deleteCartItemByIds(itemIds);
-        log.warn("清理购物车商品错误");
+        List<Long> itemIdList = new ArrayList<>(itemIds);
+        cartService.deleteCartItemsByIds(itemIdList);
+        log.warn("清理购物车商品");
 
         // 4.扣减库存
         try {

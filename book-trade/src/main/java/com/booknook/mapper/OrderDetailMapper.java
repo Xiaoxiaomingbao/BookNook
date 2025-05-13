@@ -15,7 +15,7 @@ import java.util.List;
 public interface OrderDetailMapper {
 
     @Insert("INSERT INTO detail (order_id, pid, num, name, price, create_time, update_time) " +
-            "VALUES (#{orderId}, #{itemId}, #{num}, #{name}, #{spec}, #{price}, #{image}, #{createTime}, #{updateTime})")
+            "VALUES (#{orderId}, #{itemId}, #{num}, #{name}, #{price}, #{createTime}, #{updateTime})")
     int insertOrderDetail(OrderDetail orderDetail);
 
     @Select("SELECT * FROM detail WHERE id = #{id}")

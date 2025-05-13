@@ -12,7 +12,7 @@ public interface ProductMapper {
 
     List<Product> queryProductsByIds(@Param("ids") List<Long> ids);
 
-    void deductStock(long id, int num);
+    void deductStock(@Param("id") long id, @Param("num") int num);
 
     void add(Product product);
 }
