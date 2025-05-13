@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Data
 @Component
-@ConfigurationProperties(prefix = "hm.cart")
+@ConfigurationProperties(prefix = "book-trade.cart")
 public class CartProperties {
-    private Integer maxItems;
+    private Integer maxItems = 10;
 }

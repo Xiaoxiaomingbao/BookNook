@@ -48,7 +48,7 @@ public class CartServiceImpl implements ICartService {
         // 2.判断是否已经存在该商品
         if(checkItemExists(cartFormDTO.getItemId(), userId)){
             // 2.1.商品已存在，则更新购物车数量
-            cartMapper.updateNum(cartFormDTO.getItemId(), userId);
+            cartMapper.updateNum(cartFormDTO.getItemId(),cartFormDTO.getNum(), userId);
             return;
         }
         // 2.2.商品不存在，检查购物车是否已满
@@ -66,7 +66,7 @@ public class CartServiceImpl implements ICartService {
     @Override
     public List<CartVO> queryMyCarts() {
         // 1.查询当前用户的购物车列表
-        List<Cart> carts = cartMapper.selectByUserId(1L);
+        List<Cart> carts = cartMapper.selectByUserId(2L);
         if (CollUtils.isEmpty(carts)) {
             return CollUtils.emptyList();
         }
@@ -159,10 +159,11 @@ public class CartServiceImpl implements ICartService {
     @Override
     public void deleteCartItemsByIds(List<Long> ids) {
         // 获取当前登录用户的ID
-        Long userId = UserContext.getUser();
+        Long userId = 1L;   //登陆界面做好后修改
+        //Long userId = UserContext.getUser();
 
         // 删除指定的购物车条目
-        cartMapper.deleteByItemIds(userId, ids);  // 调用CartMapper的deleteByItemIds方法
+        cartMapper.deleteByItemIds(1L, ids);  // 调用CartMapper的deleteByItemIds方法
     }
 
 }
