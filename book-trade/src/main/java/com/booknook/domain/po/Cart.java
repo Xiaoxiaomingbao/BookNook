@@ -45,10 +45,6 @@ public class Cart implements Serializable {
      */
     private String name;
 
-    /**
-     * 商品动态属性键值集
-     */
-    private String spec;
 
     /**
      * 价格,单位：分

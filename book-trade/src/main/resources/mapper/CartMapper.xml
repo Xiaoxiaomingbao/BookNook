@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.booknook.mapper.CartMapper">
+    <!-- 批量删除购物车项目 -->
+    <delete id="deleteByItemIds">
+        DELETE FROM cart
+        WHERE user_id = #{userId}
+        AND item_id IN
+        <foreach collection="itemIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 您可以在这里添加其他CartMapper接口中定义的方法 -->
+
+</mapper>

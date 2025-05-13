@@ -1,6 +1,5 @@
 package com.booknook.mapper;
 
-
 import com.booknook.domain.po.Cart;
 import org.apache.ibatis.annotations.*;
 
@@ -17,17 +16,16 @@ public interface CartMapper {
     @Select("SELECT * FROM cart WHERE user_id = #{userId}")
     List<Cart> selectByUserId(Long userId);
 
-    @Update("UPDATE cart SET num = num + 1 WHERE user_id = #{userId} AND item_id = #{itemId}")
-    void updateNum(Long itemId, Long userId);
+    @Update("UPDATE cart SET num = num + #{num} WHERE user_id = #{userId} AND item_id = #{itemId}")
+    void updateNum(@Param("itemId") Long itemId, @Param("num") int num, @Param("userId") Long userId);
 
-    @Delete("DELETE FROM cart WHERE user_id = #{userId} AND item_id IN (#{itemIds})")
     void deleteByItemIds(@Param("userId") Long userId, @Param("itemIds") Collection<Long> itemIds);
 
     @Select("SELECT COUNT(*) FROM cart WHERE user_id = #{userId}")
     int countByUserId(Long userId);
 
     @Select("SELECT COUNT(*) FROM cart WHERE user_id = #{userId} AND item_id = #{itemId}")
-    int countByUserIdAndItemId(Long userId, Long itemId);
+    int countByUserIdAndItemId(@Param("userId") Long userId, @Param("itemId") Long itemId);
 
     @Update("UPDATE cart SET num = #{num}, name = #{name}, price = #{price}, image = #{image}, update_time = #{updateTime} WHERE id = #{id} AND user_id = #{userId}")
     void update(Cart cart);
